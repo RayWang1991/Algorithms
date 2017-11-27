@@ -3,7 +3,7 @@ package chap2;
 /**
  * Created by raywang on 2017/11/26.
  */
-public class MergeSortTD {
+public class MergeSort {
     public static void merge(Comparable[] a, Comparable[] aux, int low, int mid,
                              int high) {
         if (mid + 1 > high || Utils.less(a[mid], a[mid + 1])) { //2.2.2.2 if is
@@ -27,22 +27,39 @@ public class MergeSortTD {
         }
     }
 
-    public static void sort(Comparable[] a, Comparable[] aux, int low,
-                            int high) {
+    public static void sortTD(Comparable[] a, Comparable[] aux, int low,
+                              int high) {
         if (low >= high) {
             return;
         }
-        if (high - low <= 16) { //2.2.2.1 for short array use insertion sort
+        if (high - low <= 16) { //2.2.2.1 for short array use insertion sortTD
             InsertionSort.sort1(a, low, high);
         }
         int mid = low + (high - low) / 2;
-        sort(a, aux, low, mid);
-        sort(a, aux, mid + 1, high);
+        sortTD(a, aux, low, mid);
+        sortTD(a, aux, mid + 1, high);
         merge(a, aux, low, mid, high);
     }
 
-    public static void sort(Comparable[] a) {
+    // Top down
+    public static void sortTD(Comparable[] a) {
         Comparable[] aux = new Comparable[a.length];
-        sort(a, aux, 0, a.length - 1);
+        sortTD(a, aux, 0, a.length - 1);
+    }
+
+    public static void sortBU(Comparable[] a, Comparable[] aux, int low, int
+            high) {
+        for (int size = 1; size < a.length; size += size) {
+            for (int i = low; i + size <= high; i += 2 * size) {
+                merge(a, aux, i, i + size - 1, Math.min(i + 2 * size -
+                        1, high));
+            }
+        }
+    }
+
+    // Bottom up
+    public static void sortBU(Comparable[] a) {
+        Comparable[] aux = new Comparable[a.length];
+        sortBU(a, aux, 0, a.length - 1);
     }
 }
