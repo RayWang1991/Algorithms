@@ -1,8 +1,6 @@
 package chap2;
 
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.Insertion;
-import edu.princeton.cs.algs4.Selection;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
@@ -34,7 +32,8 @@ public class Test {
 //        InsertionSort.sort1(a);
 //        ShellSort.sort(a);
 //        MergeSort.sortTD(a);
-        MergeSort.sortBU(a);
+//        MergeSort.sortBU(a);
+        QuickSort.sort(a);
         assert isSorted(a);
         long t2 = System.currentTimeMillis();
         Utils.show(a);
