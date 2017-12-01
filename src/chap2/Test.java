@@ -29,11 +29,12 @@ public class Test {
         long t1 = System.currentTimeMillis();
 //        Selection.sortTD(a);
 //        InsertionSort.sortTD(a);
-//        InsertionSort.sort1(a);
+//        InsertionSort.sort(a);
 //        ShellSort.sort(a);
 //        MergeSort.sortTD(a);
 //        MergeSort.sortBU(a);
-        QuickSort.sort(a);
+//        QuickSort.sort(a);
+        QuickSort.sort3way(a);
         assert isSorted(a);
         long t2 = System.currentTimeMillis();
         Utils.show(a);
