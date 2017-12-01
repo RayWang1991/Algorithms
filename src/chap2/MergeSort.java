@@ -93,18 +93,23 @@ public class MergeSort {
             high) {
         boolean flag = false;
         for (int size = 1; size < a.length; size += size) {
-            for (int i = low; i + size <= high; i += 2 * size) {
+            int i;
+            for (i = low; i <= high; i += 2 * size) {
                 merge2(aux, a, i, i + size - 1, Math.min(i + 2 * size -
                         1, high));
             }
+            // copy [i,high] to aux
+//            for (; i <= high; i++) {
+//                aux[i] = a[i];
+//            }
             flag = !flag;
             Comparable[] t = a;
             a = aux;
             aux = t;
         }
-        if (flag) {
+        if (flag) { // aux is dest
             for (int i = low; i <= high; i++) {
-                a[i] = aux[i];
+                aux[i] = a[i];
             }
         }
     }
