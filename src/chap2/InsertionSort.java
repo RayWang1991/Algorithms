@@ -6,12 +6,22 @@ package chap2;
 public class InsertionSort {
     // basic insertion
     public static void sort(Comparable[] a) {
-        for (int i = 1; i < a.length; i++) {
-            for (int j = i; j > 0 && Utils.less(a, j, j - 1); j--) {
+        sort(a,0,a.length-1);
+//        for (int i = 1; i < a.length; i++) {
+//            for (int j = i; j > 0 && Utils.less(a, j, j - 1); j--) {
+//                Utils.exch(a, j, j - 1); // may use later
+//            }
+//        }
+    }
+
+    public static void sort(Comparable[] a, int low, int high) {
+        for (int i = low + 1; i <= high; i++) {
+            for (int j = i; j > low && Utils.less(a, j, j - 1); j--) {
                 Utils.exch(a, j, j - 1); // may use later
             }
         }
     }
+
 
     public static void sort1(Comparable[] a, int low, int high) {
         for (int i = low + 1; i <= high; i++) {
