@@ -34,7 +34,9 @@ public class Test {
 //        MergeSort.sortTD(a);
 //        MergeSort.sortBU(a);
 //        QuickSort.sort(a);
-        QuickSort.sort3way(a);
+//        QuickSort.sort3way(a);
+        PriorityQueue.sort(a);
+
         assert isSorted(a);
         long t2 = System.currentTimeMillis();
         Utils.show(a);

@@ -79,15 +79,15 @@ public class PriorityQueue {
         return t;
     }
 
-    private int father(int k) {
+    private static int father(int k) {
         return (k - 1) / 2;
     }
 
-    private int leftChild(int k) {
+    private static int leftChild(int k) {
         return k * 2 + 1;
     }
 
-    private int rightChild(int k) {
+    private static int rightChild(int k) {
         return k * 2 + 2;
     }
 
@@ -114,8 +114,7 @@ public class PriorityQueue {
         }
     }
 
-    // TODO test
-
+    // self implementation
     private void sink(int k) {
         while (leftChild(k) < this.n) {
             if (rightChild(k) < this.n) { // having left, and right
@@ -146,7 +145,47 @@ public class PriorityQueue {
         }
     }
 
-    // out put the nin 10 elements
+    /**
+     * heap sort a
+     *
+     * @param a
+     */
+    public static void sort(Comparable[] a) {
+        // construct the heap
+        int n = a.length; // n, number of elements
+        for (int i = n / 2; i >= 0; i--) { // i, index of elements
+            sink(a, i, n);
+        }
+        // sort the array
+        while (n > 0) { // i, counter
+            Utils.exch(a, 0, --n); // narrow the size
+            sink(a, 0, n);
+        }
+    }
+
+    /**
+     * sink the element on i within size
+     *
+     * @param a    the elements array
+     * @param i    the element to be sinked
+     * @param size the size of the array, total
+     */
+    public static void sink(Comparable[] a, int i, int size) {
+        while (leftChild(i) < size) {
+            int j = leftChild(i);
+            if (j + 1 < size && Utils.less(a, j, j + 1)) {
+                j++;
+            }
+            if (Utils.less(a, i, j)) {
+                Utils.exch(a, i, j);
+                i = j;
+            } else {
+                break;
+            }
+        }
+    }
+
+    // out put the min 10 elements
     public static void main(String[] args) {
         String[] a = In.readStrings
                 ("/Users/raywang/IdeaProjects/Algorithms/testRaw/chap1" +
