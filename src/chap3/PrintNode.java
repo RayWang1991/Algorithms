@@ -104,28 +104,30 @@ public class PrintNode<Key, Value> {
             } else if (node.rk > 0) {
                 // blank
                 int rm = node.rightMost();
-                if (node.rk > rm) {
-                    while (i <= rm) {
-                        StdOut.print(' ');
-                        i++;
-                    }
-                    // '-'
-                    while (i < node.rk) {
-                        StdOut.print('-');
-                        i++;
-                    }
-                    // '\'
-                    StdOut.print('\\');
-                } else {
-                    rm = node.rk;
-                    while (i < rm) {
-                        StdOut.print(' ');
-                    }
-                    StdOut.print('\\');
+                while (i <= rm) {
+                    StdOut.print(' ');
+                    i++;
                 }
+                // '-'
+                while (i < node.rk) {
+                    StdOut.print('-');
+                    i++;
+                }
+                // '\'
+                StdOut.print('\\');
             }
         }
         StdOut.println();
+    }
+
+    public void updateX() {
+        this.x = this.parent.x + this.r;
+        if (this.left != null) {
+            this.left.updateX();
+        }
+        if (this.right != null) {
+            this.right.updateX();
+        }
     }
 
     public static PrintNode LCA(PrintNode a, PrintNode b) {
@@ -156,7 +158,7 @@ public class PrintNode<Key, Value> {
     public void trim() {
         if (this.left != null) {
             this.left.x = this.left.r + this.x;
-            this.lk = this.left.x + this.wid - 1;
+            this.lk = this.left.x + this.left.wid - 1;
             this.left.trim();
         }
         if (this.right != null) {

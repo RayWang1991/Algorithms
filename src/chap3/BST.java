@@ -346,7 +346,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         rl.add(rootPN);
         listArr.add(rl);
 
-        int current = 1, next = 0, y = 0;
+        int current = 1, next = 0, y = 1;
         while (!workList.isEmpty()) {
             next = 0;
             ArrayList<PrintNode> list = new ArrayList<>();
@@ -389,6 +389,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 
         //find the left most x, adjustD pos
         int lm = 0;
+        boolean conflict = false;
         for (ArrayList<PrintNode> list : listArr) {
             PrintNode pre = null;
             for (PrintNode node : list) {
@@ -398,12 +399,34 @@ public class BST<Key extends Comparable<Key>, Value> {
                     }
                 } else {
                     int rm = pre.rightMost();
-                    if (node.x < rm + 1) {
+                    if (node.x < rm + 2) {
                         PrintNode lca = PrintNode.LCA(pre, node);
-                        lca.r += rm + 1 - node.x;
+                        lca.right.r += rm + 2 - node.x;
+                        lca.right.updateX();
+                        conflict = true;
                     }
                 }
                 pre = node;
+            }
+        }
+
+        // check
+        while (conflict) {
+            conflict = false;
+            for (ArrayList<PrintNode> list : listArr) {
+                PrintNode pre = null;
+                for (PrintNode node : list) {
+                    if (pre != null) {
+                        int rm = pre.rightMost();
+                        if (node.x < rm + 2) {
+                            PrintNode lca = PrintNode.LCA(pre, node);
+                            lca.right.r += rm + 2 - node.x;
+                            lca.right.updateX();
+                            conflict = true;
+                        }
+                    }
+                    pre = node;
+                }
             }
         }
 
@@ -519,9 +542,16 @@ public class BST<Key extends Comparable<Key>, Value> {
                 "T"};
     }
 
+    public static String[] mediumRaw() {
+        return new String[]{"this", "is", "a", "medium", "text", "just", "to",
+                "test", "the", "correctness", "of", "the", "BST", "algorithm",
+                "in", "book", "however", "this", "test", "is", "not", "enough",
+                "yet"};
+    }
+
     public static void testPutGetDelete() {
-        String[] str = smallRaw();
-        String[] vs = smallRaw(); // key and value should be the same
+        String[] str = mediumRaw();
+        String[] vs = mediumRaw(); // key and value should be the same
         int l = str.length;
         BST<String, String> bst = new BST<>();
 
