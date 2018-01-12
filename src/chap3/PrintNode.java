@@ -10,6 +10,8 @@ import java.util.List;
 public class PrintNode<Key, Value> {
     public int x, y, r, lk, rk, wid; // x is the leftmost point of node
     public Node<Key, Value> node;
+    public RBNode<Key, Value> rbnode;
+
     public PrintNode<Key, Value> left, right, parent;
 
     public int rightMost() {
@@ -24,10 +26,16 @@ public class PrintNode<Key, Value> {
         return (x + x + wid - 1) / 2;
     }
 
-    PrintNode(Node<Key, Value> node) {
+    PrintNode(RBNode<Key, Value> node) {
+        this.rbnode = node;
         String s = node.toString();
         this.wid = s.length();
+    }
+
+    PrintNode(Node<Key, Value> node) {
         this.node = node;
+        String s = node.toString();
+        this.wid = s.length();
     }
 
     PrintNode(Node<Key, Value> node, int x, int y) {
@@ -43,6 +51,85 @@ public class PrintNode<Key, Value> {
     }
 
     public static void printNodesInline(List<PrintNode> list) {
+        int i = 0;
+        // print nodes
+        for (PrintNode node : list) {
+            int lm = node.leftMost();
+            while (i < lm) {
+                StdOut.print(' ');
+                i++;
+            }
+            StdOut.printf("%s", node.node);
+            i += node.wid;
+        }
+        StdOut.println();
+
+        // print left and right links
+        i = 0;
+        for (PrintNode node : list) {
+            if (node.lk > 0 && node.rk > 0) {
+                // blank
+                while (i < node.lk) {
+                    StdOut.print(' ');
+                    i++;
+                }
+                StdOut.print('/');
+                i++;
+                // '-'
+                int lm = node.leftMost() - 1;
+                while (i < lm) {
+                    StdOut.print('-');
+                    i++;
+                }
+                // blank
+                int rm = node.rightMost();
+                while (i <= rm) {
+                    StdOut.print(' ');
+                    i++;
+                }
+                // '-'
+                while (i < node.rk) {
+                    StdOut.print('-');
+                    i++;
+                }
+                // '\'
+                StdOut.print('\\');
+
+            } else if (node.lk > 0) {
+                // blank
+                while (i < node.lk) {
+                    StdOut.print(' ');
+                    i++;
+                }
+                StdOut.print('/');
+                i++;
+                // '-'
+                int lm = node.leftMost() - 1;
+                while (i < lm) {
+                    StdOut.print('-');
+                    i++;
+                }
+            } else if (node.rk > 0) {
+                // blank
+                int rm = node.rightMost();
+                while (i <= rm) {
+                    StdOut.print(' ');
+                    i++;
+                }
+                // '-'
+                while (i < node.rk) {
+                    StdOut.print('-');
+                    i++;
+                }
+                // '\'
+                StdOut.print('\\');
+            }
+        }
+        StdOut.println();
+    }
+
+
+    public static void printRBNodesInline(List<PrintNode> list) {
         int i = 0;
         // print nodes
         for (PrintNode node : list) {

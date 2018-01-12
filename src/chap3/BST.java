@@ -434,59 +434,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         rootPN.x = -lm;
         rootPN.trim();
 
-        /*
-        // reverse order itr, set parent position by children
-        Iterator<ArrayList<PrintNode>> iterator = listArr
-                .descendingIterator();
-        ArrayList<PrintNode> cur = iterator.next(), prev = null; //
-        // must has at least one level
-        int x = 0;
-        for (PrintNode node : cur) {
-            node.x = x;
-            node.lk = node.rk = -1;
-            x += node.wid + 1;
-        }
-        while (iterator.hasNext()) {
-            prev = iterator.next();
-            int j = 0;
-            x = 0; // next available point
-            for (PrintNode parent : prev) {
-                Node node = parent.node;
-                if (node.left != null && node.right != null) {
-                    PrintNode left = cur.get(j++),
-                            right = cur.get(j++);
-                    parent.x = (left.x + right.x) / 2;
-                    if (parent.x < x) {
-                        parent.x = x;
-                    }
-                    parent.lk = left.x;
-                    parent.rk = right.x + right.wid - 1;
-                } else if (node.left != null) {
-                    PrintNode left = cur.get(j++);
-                    parent.x = left.x;
-                    if (parent.x < x) {
-                        parent.x = x;
-                    }
-                    parent.lk = left.x;
-                    parent.rk = -1;
-                } else if (node.right != null) {
-                    PrintNode right = cur.get(j++);
-                    parent.x = right.x + right.wid - parent.wid;
-                    if (parent.x < x) {
-                        parent.x = x;
-                    }
-                    parent.rk = parent.x;
-                    parent.lk = -1;
-                } else {
-                    parent.x = x;
-                    parent.lk = parent.rk = -1;
-                }
-                x = parent.x + parent.wid + 1;
-            }
-            cur = prev;
-        }
-        */
-
         // print nodes
         for (List<PrintNode> list : listArr) {
             PrintNode.printNodesInline(list);
@@ -537,21 +484,10 @@ public class BST<Key extends Comparable<Key>, Value> {
         return dedup;
     }
 
-    public static String[] smallRaw() {
-        return new String[]{"E", "X", "A", "M", "P", "L", "E", "T", "E", "S",
-                "T"};
-    }
-
-    public static String[] mediumRaw() {
-        return new String[]{"this", "is", "a", "medium", "text", "just", "to",
-                "test", "the", "correctness", "of", "the", "BST", "algorithm",
-                "in", "book", "however", "this", "test", "is", "not", "enough",
-                "yet"};
-    }
 
     public static void testPutGetDelete() {
-        String[] str = mediumRaw();
-        String[] vs = mediumRaw(); // key and value should be the same
+        String[] str = Test.mediumRaw();
+        String[] vs = Test.mediumRaw(); // key and value should be the same
         int l = str.length;
         BST<String, String> bst = new BST<>();
 
@@ -600,7 +536,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public static void testRankSelect() {
-        String[] str = smallRaw();
+        String[] str = Test.smallRaw();
 
     }
 

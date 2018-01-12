@@ -22,6 +22,6 @@ public class Node<Key, Value> {
     }
 
     public String toString() {
-        return "<" + this.key.toString() + ":" + this.val.toString() + ">";
+        return "[" + this.key.toString() + ":" + this.val.toString() + "]";
     }
 }
