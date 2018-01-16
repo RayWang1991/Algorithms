@@ -133,7 +133,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     // delete node with given key k
     public void delete(Key k) {
         // find the node with key k
-        Node<Key, Value> r = this.root, l = null;
+        Node<Key, Value> r = this.root, l = null; // l is the parent of r
         boolean isLeft = false;
         while (r != null) {
             int res = k.compareTo(r.key);
@@ -328,7 +328,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         iKeys(node.right, io, hi, list);
     }
 
-    //todo
     public void printTree() {
         if (this.root == null) {
             StdOut.println(null);
@@ -438,7 +437,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         for (List<PrintNode> list : listArr) {
             PrintNode.printNodesInline(list);
         }
-
     }
 
 

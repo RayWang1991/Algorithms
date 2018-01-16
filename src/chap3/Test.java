@@ -4,9 +4,20 @@ package chap3;
  * Created by raywang on 2018/1/3.
  */
 public class Test {
+    public static String[] _toOneRaw(String str) {
+        String[] res = new String[str.length()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = str.substring(i, i + 1);
+        }
+        return res;
+    }
+
     public static String[] smallRaw() {
-        return new String[]{"E", "X", "A", "M", "P", "L", "E", "T", "E", "S",
-                "T"};
+        return _toOneRaw("EXAMPLETEST");
+    }
+
+    public static String[] searchExampleRaw() {
+        return _toOneRaw("SEARCHEXAMPLE");
     }
 
     public static String[] mediumRaw() {

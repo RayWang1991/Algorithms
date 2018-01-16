@@ -5,13 +5,14 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.List;
 
 /**
- * Created by raywang on 2018/1/9.
+ * Created by raywang on 2018/1/12.
  */
-public class PrintNode<Key, Value> {
+public class PrintNodeRB {
     public int x, y, r, lk, rk, wid; // x is the leftmost point of node
-    public Node<Key, Value> node;
 
-    public PrintNode<Key, Value> left, right, parent;
+    public RBNode node;
+
+    public PrintNodeRB left, right, parent;
 
     public int rightMost() {
         return x + wid - 1;
@@ -25,32 +26,29 @@ public class PrintNode<Key, Value> {
         return (x + x + wid - 1) / 2;
     }
 
-    PrintNode(Node<Key, Value> node) {
+    PrintNodeRB(RBNode node) {
         this.node = node;
         String s = node.toString();
         this.wid = s.length();
     }
 
-    PrintNode(Node<Key, Value> node, int x, int y) {
-        this(node);
-        this.x = x;
-        this.y = y;
-    }
-
-    PrintNode(Node<Key, Value> node, int x, int y, int l, int r) {
-        this(node, x, y);
-        this.lk = l;
-        this.rk = r;
-    }
-
-    public static void printNodesInline(List<PrintNode> list) {
+    public static void printNodesInline(List<PrintNodeRB> list) {
         int i = 0;
         // print nodes
-        for (PrintNode node : list) {
+        for (PrintNodeRB node : list) {
             int lm = node.leftMost();
-            while (i < lm) {
-                StdOut.print(' ');
+            if (node.node.isBlack()) {
+                while (i < lm) {
+                    StdOut.print(' ');
+                    i++;
+                }
+            } else {
+                StdOut.print('<');
                 i++;
+                while (i < lm) {
+                    StdOut.print('~');
+                    i++;
+                }
             }
             StdOut.printf("%s", node.node);
             i += node.wid;
@@ -59,8 +57,8 @@ public class PrintNode<Key, Value> {
 
         // print left and right links
         i = 0;
-        for (PrintNode node : list) {
-            if (node.lk > 0 && node.rk > 0) {
+        for (PrintNodeRB node : list) {
+            if (node.lk > 0 && node.rk > 0 && node.node.isBlack()) {
                 // blank
                 while (i < node.lk) {
                     StdOut.print(' ');
@@ -88,7 +86,7 @@ public class PrintNode<Key, Value> {
                 // '\'
                 StdOut.print('\\');
 
-            } else if (node.lk > 0) {
+            } else if (node.lk > 0 && node.node.isBlack()) {
                 // blank
                 while (i < node.lk) {
                     StdOut.print(' ');
@@ -121,24 +119,15 @@ public class PrintNode<Key, Value> {
         StdOut.println();
     }
 
-    public void updateX() {
-        this.x = this.parent.x + this.r;
-        if (this.left != null) {
-            this.left.updateX();
-        }
-        if (this.right != null) {
-            this.right.updateX();
-        }
-    }
 
-    public static PrintNode LCA(PrintNode a, PrintNode b) {
+    public static PrintNodeRB LCA(PrintNodeRB a, PrintNodeRB b) {
         if (a == null || b == null) {
             return null;
         }
         if (a == b) {
             return a;
         }
-        PrintNode t;
+        PrintNodeRB t;
         if (a.y < b.y) {
             t = a;
             a = b;
@@ -149,11 +138,36 @@ public class PrintNode<Key, Value> {
         while (t.y > b.y) {
             t = t.parent;
         }
-        while (t != b) {
-            t = t.parent;
-            b = b.parent;
+
+        while (t != b) { // same y for red node and its left child
+            if (t.left == b && t.node.isRed()) {
+                break;
+            } else if (b.left == t && b.node.isRed()) {
+                t = b;
+                break;
+            } else {
+                t = t.parent;
+                b = b.parent;
+                // find the one with bigger y(lower level)
+                while (t.y > b.y) {
+                    t = t.parent;
+                }
+                while (t.y < b.y) {
+                    b = b.parent;
+                }
+            }
         }
         return t;
+    }
+
+    public void updateX() {
+        this.x = this.parent.x + this.r;
+        if (this.left != null) {
+            this.left.updateX();
+        }
+        if (this.right != null) {
+            this.right.updateX();
+        }
     }
 
     public void trim() {
